@@ -6,7 +6,10 @@ public class TaskManager {
     private Scanner scanner;
 
     public TaskManager() {
+        // Create an empty ArrayList to store the tasks (each task is a String)
         tasks = new ArrayList<>();
+
+        // Create a Scanner object to read user input from the console
         scanner = new Scanner(System.in);
 
     }
