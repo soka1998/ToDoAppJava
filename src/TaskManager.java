@@ -1,10 +1,15 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// This class manages the list of tasks and handles user interaction
 public class TaskManager {
-    private ArrayList<String> tasks;
+    // A list to store all the Task objects
+    private ArrayList<Task> tasks;
+
+    // Scanner to read input from the user
     private Scanner scanner;
 
+    // Constructor: initializes the task list and scanner
     public TaskManager() {
         // Create an empty ArrayList to store the tasks (each task is a String)
         tasks = new ArrayList<>();
@@ -13,24 +18,26 @@ public class TaskManager {
         scanner = new Scanner(System.in);
 
     }
-
+    // Displays the menu options to the user
     public void showMenu() {
         System.out.println("\n==== TO DO LIST ====");
         System.out.println("1.Add a Task ");
         System.out.println("2.Show Tasks");
         System.out.println("3.Delete a task ");
         System.out.println("4.Leave ");
+        System.out.println("5. Mark task as done");
         System.out.println(" Your Choice please : ");
     }
-
+    // Adds a new task entered by the user
     public void addTask() {
         System.out.println("Enter the task name:");
-        String task = scanner.nextLine();
-        tasks.add(task);
+        String title = scanner.nextLine();
+        Task task = new Task(title); // Create a new Task object
+        tasks.add(task);// Add it to the task list
         System.out.println("✅ Task added successfully!");
 
     }
-
+    // Displays all tasks with their status (done or not)
     public void showTasks() {
         if (tasks.isEmpty()) {
             System.out.println(" ⚠\uFE0F No tasks yet.");
@@ -42,16 +49,17 @@ public class TaskManager {
         }
 
     }
-
+    // Deletes a task selected by the user
     public void deleteTask() {
         if (tasks.isEmpty()) {
             System.out.println("⚠\uFE0F No task to delete.");
         } else {
+            showTasks(); // Show tasks before asking for input
             System.out.println(" Enter the number of the task to delete:");
             int num = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Consume newline
             if (num > 0 && num <= tasks.size()) {
-                tasks.remove(num - 1);
+                tasks.remove(num - 1); // Remove task by index
                 System.out.println(" ✅ Task deleted!");
             } else {
                 System.out.println(" ❌ Invalid number.");
@@ -59,7 +67,22 @@ public class TaskManager {
         }
 
     }
-
+    // Marks a task as done, based on the user's choice
+    public void markTaskAsDone(){
+        showTasks();
+        if(!tasks.isEmpty()){
+            System.out.println("Enter task number to mark as done");
+            int num = scanner.nextInt();
+            scanner.nextLine();
+            if (num >0 && num <= tasks.size()){
+                tasks.get(num - 1).markAsDone(); // Use the Task method
+                System.out.println("Task marked as done !");
+            }else{
+                System.out.println("❌ Invalid number.");
+            }
+        }
+    }
+    // Main loop: shows the menu and handles user choices
     public void start() {
         while (true) {
             showMenu();
@@ -74,11 +97,14 @@ public class TaskManager {
             } else if (choice == 4) {
                 System.out.println(" \uD83D\uDC4B Goodbye!");
                 break;
+            }
+            else if (choice == 5 ){
+                markTaskAsDone();
             } else {
                 System.out.println("❌ Invalid choice.");
             }
         }
-        scanner.close();
+        scanner.close();// Close the scanner when the loop ends
     }
 }
 
