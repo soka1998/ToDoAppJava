@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 // This class manages the list of tasks and handles user interaction
@@ -32,7 +33,33 @@ public class TaskManager {
     public void addTask() {
         System.out.println("Enter the task name:");
         String title = scanner.nextLine();
-        Task task = new Task(title); // Create a new Task object
+
+        Priority priority = null ;
+        while (priority == null ){
+            System.out.println(" select priority : ");
+            System.out.println(" 1.HIGH");
+            System.out.println(" 2.MEDIUM ");
+            System.out.println(" 3.Low ");
+            System.out.println(" Your choice (1/2/3): ");
+            String input = scanner.nextLine();
+
+            switch(input){
+                case "1":
+                    priority=Priority.HIGH;
+                    break;
+                case "2":
+                    priority = Priority.MEDIUM;
+                    break;
+                case "3":
+                    priority = Priority.LOW;
+                    break;
+                default:
+                    System.out.println(" Invalid choice.Please enter 1,2,or 3 ");
+            }
+        }
+
+
+        Task task = new Task(title,priority); // Create a new Task object
         tasks.add(task);// Add it to the task list
         System.out.println("✅ Task added successfully!");
 
@@ -42,7 +69,10 @@ public class TaskManager {
         if (tasks.isEmpty()) {
             System.out.println(" ⚠\uFE0F No tasks yet.");
         } else {
-            System.out.println("  \uD83D\uDCCB Task list: ");
+            // Sort tasks by priority before displaying
+            tasks.sort(Comparator.comparing(Task::getPriority));
+
+            System.out.println("  \uD83D\uDCCB Task list (sorted by priority : ");
             for (int i = 0; i < tasks.size(); i++) {
                 System.out.println((i + 1) + ". " + tasks.get(i));
             }
