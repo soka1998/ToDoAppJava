@@ -27,6 +27,7 @@ public class TaskManager {
         System.out.println("3.Delete a task ");
         System.out.println("4.Leave ");
         System.out.println("5. Mark task as done");
+        System.out.println("6. Edit a Task");
         System.out.println(" Your Choice please : ");
     }
     // Adds a new task entered by the user
@@ -112,10 +113,49 @@ public class TaskManager {
             }
         }
     }
+        public void editTask(){
+            showTasks();
+            if(tasks.isEmpty())return;
+
+            System.out.println("Enter the task number you want to edit ");
+            int index = scanner.nextInt();
+
+            if (index <= 0 || index >tasks.size()){
+                System.out.println("Invalid number");
+                return;
+            }
+            Task taskToEdit= tasks.get(index -1);
+
+            System.out.println("Enter nex title (leave empty to keep \""+ taskToEdit.getTitle() + "\"): ");
+            String newTitle = scanner.nextLine();
+            if (!newTitle.trim().isEmpty()){
+                taskToEdit.setTitle((newTitle));
+            }
+            System.out.println("Change priority?");
+            System.out.println("1.HIGH");
+            System.out.println("2.MEDIUM");
+            System.out.println("3.LOW");
+            System.out.println("Your choice (1/2/3 or Enter to skip) : ");
+            String choice = scanner.nextLine();
+            switch (choice){
+                case "1" : taskToEdit.setPriority(Priority.HIGH);break;
+                case "2" : taskToEdit.setPriority(Priority.MEDIUM);break;
+                case "3" : taskToEdit.setPriority(Priority.LOW);break;
+                default:
+                    System.out.println("Priority unchanger");
+            }
+            System.out.println(" Task updated");
+
+    }
     // Main loop: shows the menu and handles user choices
     public void start() {
         while (true) {
             showMenu();
+            if(!scanner.hasNextInt()){
+                System.out.println("Please enter a number (1-6).");
+                scanner.nextLine();
+                continue;
+            }
             int choice = scanner.nextInt();
             scanner.nextLine();
             if (choice == 1) {

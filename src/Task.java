@@ -38,9 +38,16 @@ public class Task {
 
         return title;
     }
+    public void setTitle(String newTitle){
+        this.title = newTitle;
+    }
 
     public Priority getPriority(){
+
         return priority;
+    }
+    public void setPriority(Priority newPriority){
+        this.priority= newPriority;
     }
 
     public LocalDateTime getCreatedAt(){
